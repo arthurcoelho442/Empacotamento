@@ -19,8 +19,6 @@
 #include <string.h>
 
 struct disco{
-    int* elem;
-    int qtd_elem;
     int tam_rest;
     struct disco *prox;
 };
@@ -31,7 +29,6 @@ int worstFit(long int* dados, int qtd);
 int bestFit(long int* dados, int qtd);
 
 disco* criaDisco(int qtd);
-disco* insereElement(disco* d, int dados);
 
 #endif /* DISCO_H */
 
