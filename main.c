@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include "disco.h"
 
 int comp_suf_array(const void *pa, const void * pb);
 int main(int argc, char** argv) {
-    //Lista *lista = (Lista*) malloc(sizeof (lista));         //Lista com todas as ordenações executadas
     FILE* entrada;                                          //Arquivo de entrada para o sistema
     FILE* saida;                                            //Arquivo de saida
 
@@ -32,15 +32,15 @@ int main(int argc, char** argv) {
         fscanf(entrada, "%ld", &dados[i]);
     ///////////////////////////////////////////
 
-    for(long int i = 0; i < qtd; i++)
-        printf("%ld\n", dados[i]);
-    qsort((void*)dados, qtd, sizeof(int*), comp_suf_array);
+    //qsort((void*)dados, qtd, sizeof(int*), comp_suf_array);
     
-    printf("\n\n");
+    //for(long int i = 0; i < qtd; i++)
+    //    printf("%ld\n", dados[i]);
     
-    for(long int i = 0; i < qtd; i++)
-        printf("%ld\n", dados[i]);
+    int h = worstFit(dados, qtd);
 
+    printf("\n%d\n", h);
+    
     fclose(entrada);
     fclose(saida);
     
