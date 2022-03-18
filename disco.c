@@ -7,6 +7,7 @@ typedef struct lista {
 
 Lista* inicLista();
 Lista* insereNaLista(Lista *l, disco *e);
+Lista* ordenaLista(Lista* l);
 void excluiLista(Lista *l);
 
 int worstFit(long int* dados, int qtd){
@@ -27,6 +28,45 @@ int worstFit(long int* dados, int qtd){
                 l = insereNaLista(l, d);
             }
         }
+        l = ordenaLista(l);
+        printf("\n\n%ld\n", dados[i]);
+        for(disco* aux = l->ini; aux != NULL; aux = aux->prox){
+            printf("[ ");
+            for(int i=0; i<aux->qtd_elem; i++)
+                printf("%d ", aux->elem[i]);
+            printf("]\n");
+        }
+    }
+    
+    printf("\n############################\n");
+    for(disco* aux = l->ini; aux != NULL; aux = aux->prox){
+        printf("[ ");
+        for(int i=0; i<aux->qtd_elem; i++)
+            printf("%d ", aux->elem[i]);
+        printf("]\n");
+    }
+    
+    return l->tam;
+}
+int bestFit(long int* dados, int qtd){
+    Lista* l = inicLista();
+    
+    for(int i=0; i<qtd; i++){
+        if(l->tam == 0){
+            disco* d = criaDisco(qtd);
+            l = insereNaLista(l, d);
+        }
+        int id=0;
+        for(disco* aux = l->ini; aux != NULL; aux = aux->prox){
+            if(aux->tam_rest >= dados[i]){
+                aux = insereElement(aux, dados[i]);
+                aux->tam_rest -= dados[i];
+                break;
+            }else if(aux->prox == NULL){
+                disco* d = criaDisco(qtd);
+                l = insereNaLista(l, d);
+            }
+        }
     }
     
     
@@ -36,7 +76,6 @@ int worstFit(long int* dados, int qtd){
             printf("%d ", aux->elem[i]);
         printf("]\n");
     }
-    
     
     return l->tam;
 }
@@ -57,6 +96,7 @@ disco* insereElement(disco* d, int dados){
     return d;
 }
 
+/*///////////////   LISTA   ///////////////*/
 Lista* inicLista(){
     Lista *l = (Lista*) malloc(sizeof (Lista));         //Lista com todos os discos
     l->ini = NULL;
@@ -78,6 +118,26 @@ Lista* insereNaLista(Lista *l, disco *e) {
         l->fim = e;
     }
     l->tam++;
+    
+    return l;
+}
+
+Lista* ordenaLista(Lista* l){
+    disco* atual =  l->ini;
+    disco* prox = atual->prox;
+    disco* ant = NULL;
+    
+    for(int i=0; prox!=NULL; i++, ant = atual, atual = prox, prox = prox->prox){
+       if(atual->tam_rest < prox->tam_rest){
+           if(l->ini == atual)
+               l->ini = prox;
+           disco* aux = atual;
+           atual->prox = prox->prox;
+           prox->prox = aux;
+           if(ant != NULL)
+               ant->prox = prox;
+       }
+    }
     
     return l;
 }

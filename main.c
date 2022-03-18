@@ -34,12 +34,17 @@ int main(int argc, char** argv) {
 
     //qsort((void*)dados, qtd, sizeof(int*), comp_suf_array);
     
-    //for(long int i = 0; i < qtd; i++)
-    //    printf("%ld\n", dados[i]);
+    long int size = 0;
+    for(long int i = 0; i < qtd; i++)
+        size +=dados[i];
     
-    int h = worstFit(dados, qtd);
-
-    printf("\n%d\n", h);
+    int wF = worstFit(dados, qtd);
+    //int bF = bestFit(dados, qtd);    
+    
+    printf("\nTotal size(GB): %0.2lf\n", size/1000000.0);
+    printf("\nNumber of disks:\n");
+    printf("Wors-fit: %d\n", wF);
+    //printf("Wors-fit: %d\n", bF);
     
     fclose(entrada);
     fclose(saida);
