@@ -6,7 +6,7 @@ compile:
 	gcc -o trab3 *.c	
 	
 run:
-	./trab3 in/20.txt
+	./trab3 $(arg)
 	
 compile-run:
 	make compile
@@ -14,6 +14,6 @@ compile-run:
 	
 valgrind:
 	make compile
-	valgrind ./trab3 in/20.txt
+	valgrind ./trab3 $(arg)
 
 #Finalizado
