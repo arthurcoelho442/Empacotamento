@@ -37,7 +37,7 @@ int bestFit(long int* dados, int qtd){
     Lista* l = inicLista();
     
     for(int i=0; i<qtd; i++){
-        if(l->tam == 0){
+        if(l->ini == NULL){
             disco* d = criaDisco(qtd);
             l = insereNaLista(l, d);
         }
@@ -50,7 +50,8 @@ int bestFit(long int* dados, int qtd){
                 
                 if(ant != NULL){
                     ant->prox = prox;
-                    prox->ant = ant;
+                    if(prox != NULL)
+                        prox->ant = ant;
                 }else if (prox != NULL){
                     l->ini = prox;
                     prox->ant = NULL;
@@ -115,7 +116,13 @@ Lista* ordenaLista(Lista* l){
     //Ordenação Decresente
     for(; prox!=NULL; ant = prox, prox = atual->prox){
         if(atual->tam_rest == 0){
-            l->ini = prox;
+            if (prox != NULL){
+                l->ini = prox;
+                prox->ant = NULL;
+            }else{
+                l->ini = NULL;
+                l->fim = NULL;
+            }
             free(atual);
             break;
         }else if(atual->tam_rest < prox->tam_rest){
@@ -130,7 +137,7 @@ Lista* ordenaLista(Lista* l){
            if(ant != NULL)
                ant->prox = prox;
         }else
-            break;
+           break;
     }
     
     return l;
