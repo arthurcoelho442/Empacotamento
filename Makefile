@@ -3,10 +3,10 @@
 
 
 compile:
-	gcc *.c	
+	gcc -o trab3 *.c	
 	
 run:
-	./a.out entrada_teste.txt
+	./trab3 $(arg)
 	
 compile-run:
 	make compile
@@ -14,6 +14,6 @@ compile-run:
 	
 valgrind:
 	make compile
-	valgrind ./a.out entrada_teste.txt
+	valgrind ./trab3 $(arg)
 
 #Finalizado
