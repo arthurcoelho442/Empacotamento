@@ -29,7 +29,6 @@ int worstFit(long int* dados, int qtd){
         }
         l = ordenaLista(l);
     }
-    
     int tam = l->tam;
     excluiLista(l);
     return tam;
@@ -43,18 +42,30 @@ int bestFit(long int* dados, int qtd){
             l = insereNaLista(l, d);
         }
         disco* ideal = pegaIdeal(l, dados[i]);
-        if(ideal == NULL) {
+        if(ideal != NULL){
+            ideal->tam_rest-=dados[i];
+            if(ideal->tam_rest == 0){
+                disco* ant = ideal->ant;
+                disco* prox = ideal->prox;
+                
+                if(ant != NULL){
+                    ant->prox = prox;
+                    prox->ant = ant;
+                }else if (prox != NULL){
+                    l->ini = prox;
+                    prox->ant = NULL;
+                }else{
+                    l->ini = NULL;
+                    l->fim = NULL;
+                }
+                free(ideal);
+            }
+        }else {
                 disco* d = criaDisco(qtd);
                 d->tam_rest -= dados[i];
                 l = insereNaLista(l, d);
         }
     }
-    
-    /*printf("\n");
-    for(disco* aux = l->ini; aux != NULL; aux=aux->prox)
-        printf("[ %d ]\n", aux->tam_rest);
-    printf("\n");*/
-    
     int tam = l->tam;
     excluiLista(l);
     return tam;
@@ -63,6 +74,7 @@ int bestFit(long int* dados, int qtd){
 disco* criaDisco(int qtd){
     disco* d = (disco*) malloc(sizeof(disco));
     d->tam_rest = TAM_SIZE;
+    d->ant = NULL;
     d->prox = NULL;
     return d;
 }
@@ -86,6 +98,7 @@ Lista* insereNaLista(Lista *l, disco *e) {
         l->fim = e;
     }
      else {//Entra se a lista já possui elementos e adiciona na ultima posição
+        l->ini->ant = e;
         e->prox = l->ini;
         l->ini = e;
     }
@@ -106,6 +119,10 @@ Lista* ordenaLista(Lista* l){
                l->ini = prox;
            atual->prox = prox->prox;
            prox->prox = atual;
+           
+           atual->ant = prox;
+           prox->ant = ant;
+           
            if(ant != NULL)
                ant->prox = prox;
        }else
@@ -122,8 +139,6 @@ disco* pegaIdeal(Lista* l, int dado){
             ideal = aux->tam_rest;
             dIdeal = aux;
         }
-    if(dIdeal != NULL)
-        dIdeal->tam_rest-=dado;
     return dIdeal;
 }
 

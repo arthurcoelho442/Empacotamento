@@ -22,6 +22,7 @@
 
 struct disco{
     int tam_rest;
+    struct disco *ant;
     struct disco *prox;
 };
 
