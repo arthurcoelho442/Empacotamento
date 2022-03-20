@@ -1,18 +1,14 @@
 #include "disco.h"
 
-typedef struct lista {
-    disco *ini, *fim;
-    int tam;
-}Lista;
 
 Lista* inicLista();
 Lista* insereNaLista(Lista *l, disco *e);
 Lista* ordenaLista(Lista* l);
 disco* pegaIdeal(Lista* l, int dados);
-void excluiLista(Lista *l);
 
-int worstFit(long int* dados, int qtd){
-    Lista* l = inicLista();
+Lista* worstFit(Lista* l, long int* dados, int qtd){
+
+    l = inicLista();
     
     for(int i=0; i<qtd; i++){
         if(l->tam == 0){
@@ -29,12 +25,11 @@ int worstFit(long int* dados, int qtd){
         }
         l = ordenaLista(l);
     }
-    int tam = l->tam;
-    excluiLista(l);
-    return tam;
+    return l;
 }
-int bestFit(long int* dados, int qtd){
-    Lista* l = inicLista();
+Lista* bestFit(Lista* l, long int* dados, int qtd){
+
+    l = inicLista();
     
     for(int i=0; i<qtd; i++){
         if(l->ini == NULL){
@@ -67,9 +62,7 @@ int bestFit(long int* dados, int qtd){
                 l = insereNaLista(l, d);
         }
     }
-    int tam = l->tam;
-    excluiLista(l);
-    return tam;
+    return l;
 }
 
 disco* criaDisco(int qtd){

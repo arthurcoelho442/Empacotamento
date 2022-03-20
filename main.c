@@ -32,30 +32,37 @@ int main(int argc, char** argv) {
     for(long int i = 0; i < qtd; i++)
         size +=dados[i];
     
+    Lista *l,*l2,*l3,*l4;
+
     clock_t init = clock();
         
     printf("\nTotal size(GB): %0.2lf\n", size/TAM_SIZE);
     printf("\nNumber of disks:\n");
     
-    int wF = worstFit(dados, qtd);
-    int bF = bestFit(dados, qtd);    
+    l = worstFit(l,dados, qtd);
+    l2 = bestFit(l2, dados, qtd);    
     
-    printf("Wors-fit: %d\n", wF);    
-    printf("Best-fit: %d\n", bF);
+    printf("Wors-fit: %d\n", l->tam);    
+    printf("Best-fit: %d\n", l2->tam);
     
     qsort((void*)dados, qtd, sizeof(int*), comp_suf_array);
     
-    wF = worstFit(dados, qtd);
-    bF = bestFit(dados, qtd); 
+    l3 = worstFit(l3,dados, qtd);
+    l4 = bestFit(l4, dados, qtd);    
 
-    printf("Wors-fit decreasing: %d\n", wF);
-    printf("Best-fit decreasing: %d\n", bF);
+    printf("Wors-fit decreasing: %d\n", l3->tam);
+    printf("Best-fit decreasing: %d\n", l4->tam);
     
     clock_t fim = clock();                              
     double time = (double)(fim - init)/CLOCKS_PER_SEC;
 
     printf("\ntempo: %lf\n", time);
     
+    excluiLista(l);
+    excluiLista(l2);
+    excluiLista(l3);
+    excluiLista(l4);
+
     fclose(entrada);
     free(dados);
     

@@ -28,10 +28,18 @@ struct disco{
 
 typedef struct disco disco;
 
-int worstFit(long int* dados, int qtd);
-int bestFit(long int* dados, int qtd);
+struct lista {
+    disco *ini, *fim;
+    int tam;
+}; 
+
+typedef struct lista Lista;
+
+Lista* worstFit(Lista* l, long int* dados, int qtd);
+Lista* bestFit(Lista* l,long int* dados, int qtd);
 
 disco* criaDisco(int qtd);
+void excluiLista(Lista *l);
 
 #endif /* DISCO_H */
 
