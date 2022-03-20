@@ -34,22 +34,22 @@ int main(int argc, char** argv) {
     
     clock_t init = clock();
         
-    printf("\nTotal size(GB): %0.2lf\n", size/1000000.0);
+    printf("\nTotal size(GB): %0.2lf\n", size/TAM_SIZE);
     printf("\nNumber of disks:\n");
     
-    int wF = worstFit(dados, qtd);
+    //int wF = worstFit(dados, qtd);
     int bF = bestFit(dados, qtd);    
     
-    printf("Wors-fit: %d\n", wF);    
+    //printf("Wors-fit: %d\n", wF);    
     printf("Best-fit: %d\n", bF);
     
-    qsort((void*)dados, qtd, sizeof(int*), comp_suf_array);
+    //qsort((void*)dados, qtd, sizeof(int*), comp_suf_array);
     
-    wF = worstFit(dados, qtd);
-    bF = bestFit(dados, qtd); 
+    //wF = worstFit(dados, qtd);
+    //bF = bestFit(dados, qtd); 
 
-    printf("Wors-fit decreasing: %d\n", wF);
-    printf("Best-fit decreasing: %d\n", bF);
+    //printf("Wors-fit decreasing: %d\n", wF);
+    //printf("Best-fit decreasing: %d\n", bF);
     
     clock_t fim = clock();                              
     double time = (double)(fim - init)/CLOCKS_PER_SEC;
