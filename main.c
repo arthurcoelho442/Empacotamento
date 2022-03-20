@@ -33,14 +33,14 @@ int main(int argc, char** argv) {
         size +=dados[i];
     
     clock_t init = clock();
+        
+    printf("\nTotal size(GB): %0.2lf\n", size/1000000.0);
+    printf("\nNumber of disks:\n");
     
     int wF = worstFit(dados, qtd);
     int bF = bestFit(dados, qtd);    
     
-    
-    printf("\nTotal size(GB): %0.2lf\n", size/1000000.0);
-    printf("\nNumber of disks:\n");
-    printf("Wors-fit: %d\n", wF);
+    printf("Wors-fit: %d\n", wF);    
     printf("Best-fit: %d\n", bF);
     
     qsort((void*)dados, qtd, sizeof(int*), comp_suf_array);

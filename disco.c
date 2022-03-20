@@ -28,6 +28,7 @@ int worstFit(long int* dados, int qtd){
         }
         l = ordenaLista(l, 1);
     }
+    
     int tam = l->tam;
     excluiLista(l);
     return tam;
@@ -40,9 +41,19 @@ int bestFit(long int* dados, int qtd){
             disco* d = criaDisco(qtd);
             l = insereNaLista(l, d);
         }
-        for(disco* aux = l->ini; aux != NULL; aux=aux->prox){
+        disco* ant;
+        for(disco* aux = l->ini; aux != NULL; ant = aux, aux=aux->prox){
             if(aux->tam_rest >= dados[i]){
                 aux->tam_rest -= dados[i];
+                
+                if(aux != l->ini){
+                    if(aux->prox != NULL)
+                        ant->prox = aux->prox;
+                    else
+                        ant->prox = NULL;
+                    aux->prox = l->ini;
+                    l->ini = aux;
+                }              
                 break;
             }else if(aux->prox == NULL){
                 disco* d = criaDisco(qtd);
@@ -54,7 +65,12 @@ int bestFit(long int* dados, int qtd){
         }
         l = ordenaLista(l, 2);
     }
-        
+    
+    /*printf("\n");
+    for(disco* aux = l->ini; aux != NULL; aux=aux->prox)
+        printf("[ %d ]\n", aux->tam_rest);
+    printf("\n");*/
+    
     int tam = l->tam;
     excluiLista(l);
     return tam;
@@ -98,33 +114,32 @@ Lista* ordenaLista(Lista* l, int tipo){
     disco* atual =  l->ini;
     disco* prox = atual->prox;
     disco* ant = NULL;
-    
     //Ordenação Decresente
     if(tipo == 1){
-        for(int i=0; prox!=NULL; i++, ant = atual, atual = prox, prox = prox->prox){
+        for(; prox!=NULL; ant = prox, prox = atual->prox){
            if(atual->tam_rest < prox->tam_rest){
                if(l->ini == atual)
                    l->ini = prox;
-               disco* aux = atual;
                atual->prox = prox->prox;
-               prox->prox = aux;
+               prox->prox = atual;
                if(ant != NULL)
                    ant->prox = prox;
-           }
+           }else
+               break;
         }
     }
     //Ordenação Cresente
     if(tipo == 2){
-        for(int i=0; prox!=NULL; i++, ant = atual, atual = prox, prox = prox->prox){
+        for(; prox!=NULL; ant = prox, prox = atual->prox){
            if(atual->tam_rest > prox->tam_rest){
                if(l->ini == atual)
                    l->ini = prox;
-               disco* aux = atual;
                atual->prox = prox->prox;
-               prox->prox = aux;
+               prox->prox = atual;
                if(ant != NULL)
                    ant->prox = prox;
-           }
+           }else
+               break;
         }
     }
     
