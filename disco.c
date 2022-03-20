@@ -7,7 +7,8 @@ typedef struct lista {
 
 Lista* inicLista();
 Lista* insereNaLista(Lista *l, disco *e);
-Lista* ordenaLista(Lista* l, int tipo);
+Lista* ordenaLista(Lista* l);
+disco* pegaIdeal(Lista* l, int dados);
 void excluiLista(Lista *l);
 
 int worstFit(long int* dados, int qtd){
@@ -26,7 +27,7 @@ int worstFit(long int* dados, int qtd){
             l = insereNaLista(l, d);
             l->ini->tam_rest -= dados[i];
         }
-        l = ordenaLista(l, 1);
+        l = ordenaLista(l);
     }
     
     int tam = l->tam;
@@ -41,29 +42,12 @@ int bestFit(long int* dados, int qtd){
             disco* d = criaDisco(qtd);
             l = insereNaLista(l, d);
         }
-        disco* ant;
-        for(disco* aux = l->ini; aux != NULL; ant = aux, aux=aux->prox){
-            if(aux->tam_rest >= dados[i]){
-                aux->tam_rest -= dados[i];
-                
-                if(aux != l->ini){
-                    if(aux->prox != NULL)
-                        ant->prox = aux->prox;
-                    else
-                        ant->prox = NULL;
-                    aux->prox = l->ini;
-                    l->ini = aux;
-                }              
-                break;
-            }else if(aux->prox == NULL){
+        disco* ideal = pegaIdeal(l, dados[i]);
+        if(ideal == NULL) {
                 disco* d = criaDisco(qtd);
+                d->tam_rest -= dados[i];
                 l = insereNaLista(l, d);
-                aux = l->ini;
-                aux->tam_rest -= dados[i];
-                break;
-            }
         }
-        l = ordenaLista(l, 2);
     }
     
     /*printf("\n");
@@ -78,7 +62,7 @@ int bestFit(long int* dados, int qtd){
 
 disco* criaDisco(int qtd){
     disco* d = (disco*) malloc(sizeof(disco));
-    d->tam_rest = 1000000;
+    d->tam_rest = TAM_SIZE;
     d->prox = NULL;
     return d;
 }
@@ -110,40 +94,37 @@ Lista* insereNaLista(Lista *l, disco *e) {
     return l;
 }
 
-Lista* ordenaLista(Lista* l, int tipo){
+Lista* ordenaLista(Lista* l){
     disco* atual =  l->ini;
     disco* prox = atual->prox;
     disco* ant = NULL;
+    
     //Ordenação Decresente
-    if(tipo == 1){
-        for(; prox!=NULL; ant = prox, prox = atual->prox){
-           if(atual->tam_rest < prox->tam_rest){
-               if(l->ini == atual)
-                   l->ini = prox;
-               atual->prox = prox->prox;
-               prox->prox = atual;
-               if(ant != NULL)
-                   ant->prox = prox;
-           }else
-               break;
-        }
-    }
-    //Ordenação Cresente
-    if(tipo == 2){
-        for(; prox!=NULL; ant = prox, prox = atual->prox){
-           if(atual->tam_rest > prox->tam_rest){
-               if(l->ini == atual)
-                   l->ini = prox;
-               atual->prox = prox->prox;
-               prox->prox = atual;
-               if(ant != NULL)
-                   ant->prox = prox;
-           }else
-               break;
-        }
+    for(; prox!=NULL; ant = prox, prox = atual->prox){
+       if(atual->tam_rest < prox->tam_rest){
+           if(l->ini == atual)
+               l->ini = prox;
+           atual->prox = prox->prox;
+           prox->prox = atual;
+           if(ant != NULL)
+               ant->prox = prox;
+       }else
+           break;
     }
     
     return l;
+}
+disco* pegaIdeal(Lista* l, int dado){
+    int ideal = TAM_SIZE + 1;
+    disco* dIdeal = NULL;
+    for(disco* aux = l->ini; aux != NULL; aux = aux->prox)
+        if(aux->tam_rest >= dado && aux->tam_rest < ideal){
+            ideal = aux->tam_rest;
+            dIdeal = aux;
+        }
+    if(dIdeal != NULL)
+        dIdeal->tam_rest-=dado;
+    return dIdeal;
 }
 
 //Libera o espaço da alocação dinamica 

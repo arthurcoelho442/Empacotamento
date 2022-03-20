@@ -18,6 +18,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define TAM_SIZE 1000000.0
+
 struct disco{
     int tam_rest;
     struct disco *prox;
