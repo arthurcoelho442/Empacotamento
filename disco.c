@@ -114,7 +114,11 @@ Lista* ordenaLista(Lista* l){
     
     //Ordenação Decresente
     for(; prox!=NULL; ant = prox, prox = atual->prox){
-       if(atual->tam_rest < prox->tam_rest){
+        if(atual->tam_rest == 0){
+            l->ini = prox;
+            free(atual);
+            break;
+        }else if(atual->tam_rest < prox->tam_rest){
            if(l->ini == atual)
                l->ini = prox;
            atual->prox = prox->prox;
@@ -125,8 +129,8 @@ Lista* ordenaLista(Lista* l){
            
            if(ant != NULL)
                ant->prox = prox;
-       }else
-           break;
+        }else
+            break;
     }
     
     return l;
