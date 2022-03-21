@@ -7,9 +7,11 @@
 int comp_suf_array(const void *pa, const void * pb);
 int main(int argc, char** argv) {
     FILE* entrada;                                          //Arquivo de entrada para o sistema
+    FILE* saida;                                          //Arquivo de saida para o sistema
 
     //Abre o arquivo de Entrada
-    entrada = fopen(argv[1], "r+");
+    entrada = fopen(argv[1], "r");
+    saida = fopen("ED2_Trab3_results.txt", "a");
 
     //Verifica se o arquivo de Entrada é existente
     if (entrada == NULL) {
@@ -19,14 +21,14 @@ int main(int argc, char** argv) {
     ///////////////////////////////////////
 
     //Tratamento do dados do arquivo //////////
-    int qtd, k=0;                                                //quantidade de itens
+    int qtd;                                                //quantidade de itens
     fscanf(entrada, "%d", &qtd);
     long int *dados = (long int*)malloc(sizeof(long int)*qtd);
     //todos os dados do arquivo
     for(long int i = 0; i < qtd; i++)
         fscanf(entrada, "%ld", &dados[i]);
     ///////////////////////////////////////////
-
+    fprintf(saida, "\n%7d", qtd);
     
     long int size = 0;
     for(long int i = 0; i < qtd; i++)
@@ -44,6 +46,8 @@ int main(int argc, char** argv) {
     
     printf("Wors-fit: %d\n", l->tam);    
     printf("Best-fit: %d\n", l2->tam);
+    fprintf(saida, "\t%d", l->tam);
+    fprintf(saida, "\t%d", l2->tam);
     
     qsort((void*)dados, qtd, sizeof(int*), comp_suf_array);
     
@@ -52,11 +56,14 @@ int main(int argc, char** argv) {
 
     printf("Wors-fit decreasing: %d\n", l3->tam);
     printf("Best-fit decreasing: %d\n", l4->tam);
+    fprintf(saida, "\t%d", l3->tam);
+    fprintf(saida, "\t\t%d", l4->tam);
     
     clock_t fim = clock();                              
     double time = (double)(fim - init)/CLOCKS_PER_SEC;
 
     printf("\ntempo: %lf\n", time);
+    fprintf(saida, "\t\t%lf", time);
     
     excluiLista(l);
     excluiLista(l2);
