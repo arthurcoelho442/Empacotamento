@@ -65,7 +65,7 @@ Lista* bestFit(Lista* l, long int* dados, int qtd){
     return l;
 }
 
-disco* criaDisco(int qtd){
+disco* criaDisco(){
     disco* d = (disco*) malloc(sizeof(disco));
     d->tam_rest = TAM_SIZE;
     d->ant = NULL;
