@@ -1,7 +1,7 @@
 # Empacotamento - Bin Packing
 
 Este trabalho trata de Busca e Ordenação em Memória Principal, com objetivo de implementar quatro heurísticas para resolver um problema de empacotamento (bin packing). Este problema é uma abstração que serve para representar várias situações práticas. Para concretizar a situação, é considerado um cenário onde queremos armazenar arquivos de diferentes tamanhos em discos de tamanho fixo.
-## Problematica
+  ## Problematica
   O problema de bin packing é um problema fundamental para minimizar o consumo de um recurso escasso, geralmente espaço.
 
   ## Aplicações
